@@ -1,0 +1,12 @@
+body {
+    background-color: white;
+    margin: 1rem auto;
+    max-width: 800px;
+    padding: 1rem;
+}
+
+html {
+    background-color: #979797;
+    font-size: 15px;
+    font-family: sans-serif;
+}

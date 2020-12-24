@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div>
+    <a href="{{ url('rooms') }}">
+        Back to rooms
+    </a>
+    <h1>{{ room.name }}</h1>
+
+    <div id="messages" data-controller="messages">
+        {% for message in room.messages %}
+            {% include 'message/_message.html.twig' with { message: message } %}
+        {% endfor %}
+        <br>
+        {% include 'message/_form.html.twig' with {form: form} %}
+    </div>
+
+</div>
+{% endblock %}
+
+{% block title %}
+    Room -  {{ room.name }}
+{% endblock %}
