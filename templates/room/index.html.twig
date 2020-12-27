@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RoomController!{% endblock %}
+{% block title %}Welcome to turbo-slack!{% endblock %}
 
 {% block body %}
 
@@ -8,20 +8,17 @@
         <div class="p-2">
             <h3>Chat rooms</h3>
 
-            <ul>
+            <div class="list-group">
                 {% for room in rooms %}
-                    <li>
-                        <a href="{{ url('rooms_see', {id: room.id}) }}" data-turbo-frame="_top">
-                            {{ room.name }}
-                        </a>
-                    </li>
+                    <a class="list-group-item" href="{{ url('rooms_see', {id: room.id}) }}" data-turbo-frame="_top">
+                        {{ room.name }}
+                    </a>
                 {% endfor %}
-            </ul>
-
-            <div>
-                <h4>Add a room</h4>
-                {% include 'room/_form.html.twig' with { form: form } %}
             </div>
+
+            <br />
+            <h4>Add a room</h4>
+            {% include 'room/_form.html.twig' with { form: form } %}
         </div>
     </turbo-frame>
 {% endblock %}

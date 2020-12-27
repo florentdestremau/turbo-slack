@@ -9,9 +9,9 @@
             <div class="w-75 p-2">
                 <div class="d-flex justify-content-between">
                     <h3>{{ room.name }}</h3>
-                    <form action="{{ url('room_delete', {id: room.id}) }}" method="post">
+                    <form action="{{ url('room_delete', {id: room.id}) }}" method="post" data-turbo-frame="_top">
                         <input type="hidden" name="_method" value="delete">
-                        <button class="btn btn-outline-danger">
+                        <button class="btn btn-outline-danger" onclick="return confirm('Are your sure?')">
                             <span class="bi bi-trash"></span>
                             Delete room
                         </button>
