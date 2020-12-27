@@ -25,7 +25,6 @@
         "symfony/security-bundle": "5.2.*",
         "symfony/stopwatch": "5.2.*",
         "symfony/twig-bundle": "5.2.*",
-        "symfony/ux-swup": "^1.1",
         "symfony/validator": "5.2.*",
         "symfony/var-dumper": "5.2.*",
         "symfony/web-profiler-bundle": "5.2.*",

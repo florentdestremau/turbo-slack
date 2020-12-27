@@ -7,13 +7,16 @@
     </a>
     <h1>{{ room.name }}</h1>
 
-    <div id="messages" data-controller="messages">
+    <turbo-frame id="messages" target="_top">
         {% for message in room.messages %}
             {% include 'message/_message.html.twig' with { message: message } %}
+            <hr>
         {% endfor %}
-        <br>
-        {% include 'message/_form.html.twig' with {form: form} %}
-    </div>
+
+        <div>
+            {% include "message/_form.html.twig" with { form: form } %}
+        </div>
+    </turbo-frame>
 
 </div>
 {% endblock %}

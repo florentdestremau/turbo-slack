@@ -32,9 +32,6 @@ class MessageType extends AbstractType
             [
                 'data_class' => Message::class,
                 'method' => 'POST',
-                'attr' => [
-                    'data-swup-form' => 1,
-                ]
             ]
         );
     }

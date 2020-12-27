@@ -1,6 +1,15 @@
-{{ form_start(form) }}
-{{ form_widget(form) }}
-<button type="submit">
+{{ form_start(form, {attr: {id: "new_message"}}) }}
+    {{ form_widget(form) }}
+<button type="submit" id="submit_new_message" class="btn btn-outline-primary">
     Send
 </button>
 {{ form_end(form) }}
+<script type="application/javascript">
+  document.querySelector('textarea')
+    .addEventListener('keypress', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.querySelector('#submit_new_message').click();
+      }
+    });
+</script>

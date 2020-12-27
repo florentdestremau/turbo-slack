@@ -1,5 +1,13 @@
-<div>
-    {{ message.content }}
-    <br>
-    <em>{{ message.sentDate|date }}</em>
+<div class="d-flex justify-content-between">
+    <div>
+        {{ message.content }}
+        <br>
+        <em>{{ message.sentDate|date }}</em>
+    </div>
+    <form action="{{ url('message_delete', {id: message.id}) }}" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit" class="btn btn-outline-danger">
+            Delete
+        </button>
+    </form>
 </div>

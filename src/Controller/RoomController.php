@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RoomController extends AbstractController
 {
@@ -44,13 +45,19 @@ class RoomController extends AbstractController
     public function see(Room $room)
     {
         $message = new Message($room);
-
         $form =
             $this->createForm(
                 MessageType::class,
                 $message,
-                ['action' => $this->generateUrl('messages_create', ['id' => $room->getId()])]
+                [
+                    'action' => $this->generateUrl(
+                        'messages_create',
+                        ['id' => $room->getId()],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    ),
+                ]
             );
+
 
         return $this->render('room/see.html.twig', ['room' => $room, 'form' => $form->createView()]);
     }
@@ -68,22 +75,44 @@ class RoomController extends AbstractController
     }
 
     /**
-     * @Route("/rooms/{id}/messages", name="messages_create", methods={"POST"})
+     * @Route("/rooms/{id}/messages", name="messages_create", methods={"GET", "POST"})
      */
     public function sendMessage(Request $request, Room $room)
     {
         $message = new Message($room);
 
-        $form = $this->createForm(MessageType::class, $message);
+        $form =
+            $this->createForm(
+                MessageType::class,
+                $message,
+                [
+                    'action' => $this->generateUrl(
+                        'messages_create',
+                        ['id' => $room->getId()],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    ),
+                ]
+            );
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->persist($message);
-            $this->entityManager->flush();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $this->entityManager->persist($message);
+                $this->entityManager->flush();
 
-            return $this->redirectToRoute('rooms_see', ['id' => $room->getId()]);
+                return $this->redirectToRoute('rooms_see', ['id' => $room->getId()]);
+            }
+
+            return $this->render(
+                'message/_form.html.twig',
+                ['form' => $form->createView()],
+//                new Response(null, Response::HTTP_BAD_REQUEST)
+            );
         }
 
-        return $this->render('room/see.html.twig', ['room' => $room, 'form' => $form->createView()]);
+        return $this->render(
+            'message/_form.html.twig',
+            ['form' => $form->createView()],
+        );
     }
 }
