@@ -8,6 +8,7 @@
 import { start } from '@hotwired/turbo';
 // start the Stimulus application
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import './bootstrap';
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';

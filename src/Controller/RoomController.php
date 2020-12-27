@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Message;
 use App\Entity\Room;
 use App\Form\MessageType;
+use App\Form\RoomType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * @Route("/rooms")
+ */
 class RoomController extends AbstractController
 {
     /**
@@ -25,22 +29,24 @@ class RoomController extends AbstractController
     }
 
     /**
-     * @Route("/", name="rooms", methods={"GET"})
+     * @Route("", name="rooms", methods={"GET"})
      */
     public function index(): Response
     {
         $rooms = $this->entityManager->getRepository(Room::class)->findAll();
+        $form = $this->createForm(RoomType::class, null, ['action' => $this->generateUrl('rooms_create')]);
 
         return $this->render(
             'room/index.html.twig',
             [
                 'rooms' => $rooms,
+                'form'  => $form->createView(),
             ]
         );
     }
 
     /**
-     * @Route("/rooms/{id}", name="rooms_see", methods={"GET"})
+     * @Route("/{id}", name="rooms_see", methods={"GET"})
      */
     public function see(Room $room)
     {
@@ -63,19 +69,37 @@ class RoomController extends AbstractController
     }
 
     /**
-     * @Route("/rooms", name="rooms_create", methods={"POST"})
+     * @Route("", name="rooms_create", methods={"POST"})
      */
     public function create(Request $request)
     {
-        $room = new Room("Room ".bin2hex(random_bytes(5)));
-        $this->entityManager->persist($room);
-        $this->entityManager->flush();
+        $room = new Room('Undefined');
+        $form = $this->createForm(RoomType::class, $room);
+        $form->handleRequest($request);
 
-        return $this->redirectToRoute('rooms_see', ['id' => $room->getId()]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($room);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('rooms_see', ['id' => $room->getId()]);
+        }
+
+        return $this->render('room/_form.html.twig', ['form' => $form->createView()]);
     }
 
     /**
-     * @Route("/rooms/{id}/messages", name="messages_create", methods={"GET", "POST"})
+     * @Route("/{id}", methods={"DELETE"}, requirements={"id": "\d+"}, name="room_delete")
+     */
+    public function delete(Room $room)
+    {
+        $this->entityManager->remove($room);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('rooms');
+    }
+
+    /**
+     * @Route("/{id}/messages", name="messages_create", methods={"GET", "POST"})
      */
     public function sendMessage(Request $request, Room $room)
     {

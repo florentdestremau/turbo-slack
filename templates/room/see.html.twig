@@ -1,24 +1,37 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div>
-    <a href="{{ url('rooms') }}">
-        Back to rooms
-    </a>
-    <h1>{{ room.name }}</h1>
+    <turbo-frame id="room_list" >
+        <div class="d-flex w-100">
+            <div class="w-25">
+                {{ render(controller('App\\Controller\\RoomController::index')) }}
+            </div>
+            <div class="w-75 p-2">
+                <div class="d-flex justify-content-between">
+                    <h3>{{ room.name }}</h3>
+                    <form action="{{ url('room_delete', {id: room.id}) }}" method="post">
+                        <input type="hidden" name="_method" value="delete">
+                        <button class="btn btn-outline-danger">
+                            <span class="bi bi-trash"></span>
+                            Delete room
+                        </button>
+                    </form>
+                </div>
+                <br>
 
-    <turbo-frame id="messages" target="_top">
-        {% for message in room.messages %}
-            {% include 'message/_message.html.twig' with { message: message } %}
-            <hr>
-        {% endfor %}
+                <turbo-frame id="room_{{ room.id }}">
+                    {% for message in room.messages %}
+                        {% include 'message/_message.html.twig' with { message: message } %}
+                        <hr>
+                    {% endfor %}
 
-        <div>
-            {% include "message/_form.html.twig" with { form: form } %}
+                    <div>
+                        {% include "message/_form.html.twig" with { form: form } %}
+                    </div>
+                </turbo-frame>
+            </div>
         </div>
     </turbo-frame>
-
-</div>
 {% endblock %}
 
 {% block title %}

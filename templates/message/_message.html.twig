@@ -7,7 +7,7 @@
     <form action="{{ url('message_delete', {id: message.id}) }}" method="post">
         <input type="hidden" name="_method" value="delete">
         <button type="submit" class="btn btn-outline-danger">
-            Delete
+            <span class="bi bi-trash"></span>
         </button>
     </form>
 </div>
