@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=MessageRepository::class)
  */
-class Message
+class Message implements \Serializable
 {
     /**
      * @ORM\Id
@@ -80,5 +80,20 @@ class Message
         $this->room = $room;
 
         return $this;
+    }
+
+    public function serialize()
+    {
+        return [
+            'id'       => $this->id,
+            'room'     => $this->room->getId(),
+            'content'  => $this->content,
+            'sentDate' => $this->sentDate->format(\DateTime::ISO8601),
+        ];
+    }
+
+    public function unserialize($serialized)
+    {
+        // TODO: Implement unserialize() method.
     }
 }

@@ -7,5 +7,3 @@ services:
         environment:
             - POSTGRES_USER=slack-clone
             - POSTGRES_PASSWORD=password
-    mercure:
-        image: dunglas/mercure

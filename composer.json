@@ -7,6 +7,7 @@
         "php": ">=7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^3.0",
@@ -71,6 +72,9 @@
         ],
         "compile": [
             "php bin/console doctrine:migrations:migrate -n"
+        ],
+        "mercure": [
+            "./bin/mercure --jwt-key=\"123123123\" --addr=\"localhost:3000\" --allow-anonymous --cors-allowed-origins=\"*\" --debug"
         ]
     },
     "conflict": {
