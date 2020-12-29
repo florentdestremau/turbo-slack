@@ -20,12 +20,17 @@
                 <br>
 
                 <turbo-frame id="room_{{ room.id }}">
-                    {% for message in room.messages %}
-                        {% include 'message/_message.html.twig' with { message: message } %}
-                        <hr>
-                    {% endfor %}
-
-                    {% include "message/_form.html.twig" with { form: form, room: room } %}
+                    <div data-controller="newmessage"
+                         data-newmessage-topic-value="{{ url('rooms_see', {id: room.id}) }}/new-messages"
+                         data-newmessage-action-value="append"
+                    >
+                        {% for message in room.messages %}
+                            {% include 'message/_message.html.twig' with { message: message } %}
+                        {% endfor %}
+                    </div>
+                    <div>
+                        {% include "message/_form.html.twig" with { form: form } %}
+                    </div>
                 </turbo-frame>
             </div>
         </div>
