@@ -18,7 +18,7 @@ export default class extends Controller {
   }
 
   connect() {
-    this.eventSource = new EventSource('http://localhost:3000/.well-known/mercure?topic=' + encodeURIComponent(this.topicValue));
+    this.eventSource = new EventSource(window.mercureUrl + '?topic=' + encodeURIComponent(this.topicValue));
     this.eventSource.onmessage = event => {
       // Will be called every time an update is published by the server
       switch (this.actionValue) {
