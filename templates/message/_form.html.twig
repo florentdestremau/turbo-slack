@@ -1,15 +1,16 @@
-{{ form_start(form, {attr: {id: "new_message"}}) }}
+<turbo-frame id="new_message_form">
+    {{ form_start(form, {attr: {id: "new_message", "data-turbo-frame": "room_" ~ room.id }}) }}
     {{ form_widget(form) }}
-<button type="submit" id="submit_new_message" class="btn btn-outline-primary">
-    Send
-</button>
-{{ form_end(form) }}
-<script type="application/javascript">
-  document.querySelector('textarea')
-    .addEventListener('keypress', e => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        document.querySelector('#submit_new_message').click();
-      }
-    });
-</script>
+    <button type="submit" id="submit_new_message" class="btn btn-outline-primary">
+        Send
+    </button>
+    {{ form_end(form) }}
+    <script type="application/javascript">
+      document.querySelector('textarea').addEventListener('keypress', e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.querySelector('#submit_new_message').click();
+        }
+      });
+    </script>
+</turbo-frame>

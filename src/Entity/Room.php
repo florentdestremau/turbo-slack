@@ -28,6 +28,7 @@ class Room
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="room", orphanRemoval=true)
+     * @ORM\OrderBy({"sentDate": "ASC"})
      */
     private $messages;
 

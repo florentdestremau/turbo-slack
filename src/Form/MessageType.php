@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Message;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -23,7 +24,13 @@ class MessageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content');
+            ->add(
+                'content',
+                TextareaType::class,
+                [
+                    'help' => 'A message has to be at least 4 characters long, or else an error will be triggered',
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -31,7 +38,7 @@ class MessageType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => Message::class,
-                'method' => 'POST',
+                'method'     => 'POST',
             ]
         );
     }

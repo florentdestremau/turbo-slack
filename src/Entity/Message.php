@@ -20,7 +20,7 @@ class Message
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank()
+     * @Assert\Length(min=4)
      */
     private $content;
 

@@ -127,16 +127,15 @@ class RoomController extends AbstractController
                 return $this->redirectToRoute('rooms_see', ['id' => $room->getId()]);
             }
 
-            return $this->render(
-                'message/_form.html.twig',
-                ['form' => $form->createView()],
-//                new Response(null, Response::HTTP_BAD_REQUEST)
+            return new Response(
+                $this->renderView('message/_form.html.twig', ['form' => $form->createView(), 'room' => $room]),
+                Response::HTTP_BAD_REQUEST
             );
         }
 
         return $this->render(
             'message/_form.html.twig',
-            ['form' => $form->createView()],
+            ['form' => $form->createView(), 'room' => $room]
         );
     }
 }

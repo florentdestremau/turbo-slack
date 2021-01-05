@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <turbo-frame id="room_list" >
+    <turbo-frame id="room_list">
         <div class="d-flex w-100">
             <div class="w-25">
                 {{ render(controller('App\\Controller\\RoomController::index')) }}
@@ -25,9 +25,7 @@
                         <hr>
                     {% endfor %}
 
-                    <div>
-                        {% include "message/_form.html.twig" with { form: form } %}
-                    </div>
+                    {% include "message/_form.html.twig" with { form: form, room: room } %}
                 </turbo-frame>
             </div>
         </div>
